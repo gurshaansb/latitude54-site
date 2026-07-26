@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Latitude 54 — Autonomous Engagement Intelligence</title>
+<meta name="description" content="AEOS is the decision-making layer inside autonomous defense platforms — turning a sensor track into a classification, an intent score, and an authorized engagement, in seconds." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:oklch(0.145 0.006 130);--bg-2:oklch(0.175 0.007 130);--surface:oklch(0.175 0.007 130);--surface-2:oklch(0.205 0.008 130);
+    --line:oklch(0.28 0.01 130);--line-2:oklch(0.36 0.015 130);--text:oklch(0.93 0.006 120);--muted:oklch(0.68 0.012 120);--muted-2:oklch(0.50 0.014 120);
+    --amber:oklch(0.62 0.09 161);--amber-dim:oklch(0.46 0.07 161);--accent-strong:oklch(0.69 0.10 161);--accent-ink:oklch(0.16 0.02 161);--hostile:oklch(0.62 0.16 25);--ok:oklch(0.62 0.09 161);
+    --maxw:1200px;--ease:cubic-bezier(0.2,0,0,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Archivo",system-ui,sans-serif;
+    font-size:16px;line-height:1.6;letter-spacing:-0.006em;-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:600;letter-spacing:-0.02em;line-height:1.03;margin:0}
+  p{margin:0}
+  ::selection{background:oklch(0.62 0.09 161 / .24);color:var(--text)}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .section{padding:clamp(6rem,13vh,10rem) 0;position:relative}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--amber);display:inline-flex;align-items:center;gap:12px;}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--amber);opacity:.7}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .muted{color:var(--muted)}
+
+  .btn{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-family:"IBM Plex Mono",monospace;
+    font-size:13px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:14px 22px;
+    border:1px solid var(--amber);color:oklch(0.16 0.02 161);background:var(--amber);border-radius:2px;transition:.25s var(--ease);}
+  .btn:hover{background:oklch(0.69 0.10 161);border-color:oklch(0.69 0.10 161)}
+  .btn--ghost{background:transparent;color:var(--text);border-color:var(--line-2)}
+  .btn--ghost:hover{background:var(--accent-veil,oklch(0.62 0.09 161 / .14));border-color:var(--amber);color:var(--amber)}
+  .btn .arw{transition:transform .25s var(--ease)}
+  .btn:hover .arw{transform:translateX(3px)}
+
+  /* nav */
+  header.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px;transition:.4s var(--ease);border-bottom:1px solid transparent;}
+  header.nav.scrolled{background:oklch(0.145 0.006 130 / .72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom-color:var(--line);padding:14px 28px;}
+  .brand{font-family:"Michroma",sans-serif;font-weight:400;font-size:13px;letter-spacing:.2em;display:flex;align-items:center;gap:11px}
+  .brand .mark{height:24px;width:auto;display:block}
+  .brand .dot{width:7px;height:7px;background:var(--amber);border-radius:50%;box-shadow:0 0 12px var(--amber);animation:pulse 2.6s var(--ease) infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .nav-links{display:flex;align-items:center;gap:34px}
+  .nav-links a.lk{font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+  .nav-links a.lk:hover{color:var(--text)}
+  .nav-cta{padding:11px 18px;font-size:12px}
+  .burger{display:none;background:none;border:0;color:var(--text);cursor:pointer}
+
+  /* hero */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:80px 0}
+  .hero .wrap{position:relative;z-index:3;width:100%}
+  .hero-grid{position:absolute;inset:0;z-index:0;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;opacity:.25;
+    mask-image:radial-gradient(120% 90% at 72% 42%,#000 12%,transparent 70%);
+    -webkit-mask-image:radial-gradient(120% 90% at 72% 42%,#000 12%,transparent 70%);}
+  .hero-glow{position:absolute;z-index:0;width:900px;height:900px;right:-160px;top:-120px;
+    background:radial-gradient(circle,oklch(0.62 0.09 161 / .11),transparent 62%);pointer-events:none}
+  .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(140% 120% at 50% 0%,transparent 40%,oklch(0.145 0.006 130 / .85) 100%),linear-gradient(180deg,transparent 55%,var(--bg) 98%)}
+  .radar{position:absolute;z-index:1;right:-90px;top:50%;transform:translateY(-50%);width:min(620px,52vw);aspect-ratio:1;opacity:.9;pointer-events:none}
+  .radar circle,.radar line{fill:none;stroke:var(--line-2);stroke-width:1}
+  .radar .rng{stroke:oklch(0.62 0.09 161 / .16)}
+  .sweep{transform-origin:50% 50%;animation:sweep 6s linear infinite}
+  @keyframes sweep{to{transform:rotate(360deg)}}
+  .blip{fill:var(--amber)}
+  .blip.host{fill:var(--hostile)}
+
+  .badge{display:inline-flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-2);
+    border-radius:2px;padding:7px 15px;margin-bottom:26px;background:oklch(0.175 0.007 130 / .6)}
+  .badge .bd{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber)}
+  .hero h1{font-size:clamp(2.7rem,6.6vw,5.4rem);max-width:14ch;margin:18px 0 0;font-weight:700;letter-spacing:-0.025em}
+  .hero h1 .em{color:var(--amber)}
+  .hero .sub{font-size:clamp(1.02rem,1.5vw,1.22rem);color:var(--muted);max-width:52ch;margin:26px 0 0}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:16px;margin-top:38px}
+  .hero-stats{display:flex;gap:44px;flex-wrap:wrap;margin-top:64px;padding-top:30px;border-top:1px solid var(--line)}
+  .hstat .n{font-family:"Archivo";font-size:1.9rem;font-weight:600;letter-spacing:-.02em}
+  .hstat .n .u{color:var(--amber);font-size:1.1rem}
+  .hstat .l{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);margin-top:6px}
+
+  /* HUD telemetry (AICE / Skymerse-style live readouts) */
+  .hud{position:absolute;z-index:2;inset:0;pointer-events:none;font-family:"IBM Plex Mono";
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-dim)}
+  .hud .rd{position:absolute;display:flex;align-items:center;gap:8px;white-space:nowrap;opacity:.85}
+  .hud .rd::before{content:"";width:5px;height:5px;background:var(--amber-dim)}
+  .hud .rd.tl{top:120px;right:calc(min(620px,52vw) - 40px)}
+  .hud .rd.tr{top:96px;right:36px}
+  .hud .rd.br{bottom:150px;right:36px}
+  .hud .rd.bl{bottom:112px;right:calc(min(620px,52vw) - 20px)}
+  .hud .rd b{color:var(--muted);font-weight:500}
+  .hud .rd .on{color:var(--amber)}
+  .hud-tick{position:absolute;left:0;right:0;bottom:0;z-index:2;overflow:hidden;
+    border-top:1px solid var(--line);background:oklch(0.145 0.006 130 / .5);padding:9px 0}
+  .hud-tick .rail{display:inline-flex;gap:34px;white-space:nowrap;font-family:"IBM Plex Mono";
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);
+    animation:tick 34s linear infinite}
+  .hud-tick .rail span{display:inline-flex;align-items:center;gap:34px}
+  .hud-tick .rail i{color:var(--amber);font-style:normal}
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* section heads */
+  .shead{max-width:62ch}
+  .shead h2{font-size:clamp(2rem,3.9vw,3.15rem);margin:22px 0 0}
+  .shead .lede{color:var(--muted);font-size:1.08rem;margin-top:20px;max-width:56ch}
+
+  /* mission (Surtr-style) */
+  .mission{border-top:1px solid var(--line);background:var(--bg-2)}
+  .mission .stmt{font-family:"Archivo";font-weight:500;font-size:clamp(1.7rem,3.6vw,2.85rem);
+    line-height:1.12;letter-spacing:-.025em;max-width:20ch;margin:24px 0 0}
+  .mission .stmt .em{color:var(--amber)}
+  .mission .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:38px;margin-top:52px;padding-top:44px;border-top:1px solid var(--line)}
+  .mission .cols p{color:var(--muted);font-size:.98rem}
+  .mission .cols .em{color:var(--text)}
+  .mission .cols .cn{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:14px}
+
+  /* decision cycle */
+  .cycle-intro{text-align:left}
+  .steps{margin-top:clamp(3rem,7vh,6rem);display:flex;flex-direction:column;gap:clamp(4rem,9vh,7rem)}
+  .step{display:grid;grid-template-columns:0.92fr 1.15fr;gap:clamp(2.4rem,5vw,5rem);align-items:center}
+  .step.rev{grid-template-columns:1.15fr 0.92fr}
+  .step.rev .step-copy{order:2}
+  .step-num{font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
+  .step h3{font-size:clamp(1.5rem,2.6vw,2.15rem);margin:16px 0 0;max-width:16ch}
+  .step .body{color:var(--muted);margin-top:18px;max-width:42ch}
+  .step .body .em{color:var(--text);font-weight:500}
+  .step ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:7px}
+  .step ul li{color:var(--muted);font-family:"IBM Plex Mono";font-size:13.5px;display:flex;gap:11px;align-items:center}
+  .step ul li::before{content:"";width:5px;height:5px;background:var(--amber-dim);flex:none}
+
+  .panel{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:0;position:relative;overflow:hidden}
+  .panel::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 60% at 100% 0%,oklch(0.62 0.09 161 / .05),transparent 55%)}
+  .panel-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);
+    font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .live{display:inline-flex;align-items:center;gap:8px;color:var(--amber)}
+  .live .d{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:pulse 1.8s infinite}
+
+  .fusion{padding:26px 22px 28px}
+  .feeds{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .feed{border:1px solid var(--line);border-radius:2px;padding:14px 12px;background:var(--bg);position:relative;overflow:hidden}
+  .feed .fl{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+  .feed .wave{height:44px;margin-top:12px;display:flex;align-items:flex-end;gap:3px}
+  .feed .wave span{flex:1;background:linear-gradient(var(--amber-dim),transparent);opacity:.65;animation:bar 1.4s ease-in-out infinite}
+  @keyframes bar{0%,100%{height:22%}50%{height:92%}}
+  .fusion-arrow{text-align:center;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.2em;color:var(--muted-2);margin:20px 0 16px;text-transform:uppercase}
+  .unified{border:1px solid var(--line-2);border-radius:2px;background:var(--bg);padding:18px;display:flex;align-items:center;justify-content:space-between}
+  .unified .um{width:38px;height:38px;border-radius:50%;border:1px solid var(--amber);display:grid;place-items:center;color:var(--amber);position:relative}
+  .unified .um::after{content:"";position:absolute;inset:-6px;border:1px solid oklch(0.62 0.09 161 / .28);border-radius:50%;animation:ripple 2.4s ease-out infinite}
+  @keyframes ripple{0%{transform:scale(.8);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+  .unified .ut{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+
+  .assess{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .assess .col{padding:20px 18px}
+  .assess .col+.col{border-left:1px solid var(--line)}
+  .col-t{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:14px}
+  .scan{font-family:"IBM Plex Mono";font-size:12.5px;color:var(--muted);line-height:1.9}
+  .scan .hi{color:var(--text)}
+  .tracks{margin:14px 0;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .trk{display:flex;align-items:center;gap:10px;font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);padding:3px 0}
+  .trk .td{width:6px;height:6px;border-radius:50%;background:var(--muted-2);flex:none}
+  .trk.hostile .td{background:var(--hostile);box-shadow:0 0 8px var(--hostile)}
+  .trk.hostile{color:var(--text)}
+  .intent{margin-top:12px}
+  .intent .lab{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);display:flex;justify-content:space-between}
+  .intent .lab b{color:var(--hostile);font-weight:600}
+  .bar{height:5px;background:var(--line);border-radius:2px;margin-top:7px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--hostile));border-radius:2px;transition:width 1.1s var(--ease)}
+
+  .icept{display:flex;flex-direction:column;gap:9px}
+  .ic{border:1px solid var(--line);border-radius:2px;padding:9px 11px;background:var(--bg)}
+  .ic .icr{display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono";font-size:11.5px}
+  .ic .nm{color:var(--text)}
+  .ic .st{color:var(--muted-2);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+  .ic.assigned{border-color:var(--amber-dim)}
+  .ic.assigned .st{color:var(--amber)}
+  .ic .sub{font-size:10.5px;color:var(--muted-2);margin-top:4px;font-family:"IBM Plex Mono"}
+
+  .authz{margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
+  .authz .q{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:9px}
+  .authz .q .d{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);animation:pulse 1.4s infinite}
+  .authz .asg{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);margin:10px 0 14px}
+  .authz .asg b{color:var(--text)}
+  .auth-btns{display:flex;gap:10px}
+  .auth-btns button{flex:1;font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px;border-radius:2px;cursor:pointer;transition:.2s var(--ease)}
+  .b-auth{background:var(--amber);color:oklch(0.16 0.02 161);border:1px solid var(--amber)}
+  .b-auth:hover{background:oklch(0.69 0.10 161)}
+  .b-hold{background:transparent;color:var(--muted);border:1px solid var(--line-2)}
+  .b-hold:hover{border-color:var(--text);color:var(--text)}
+  .auth-result{margin-top:14px;font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;display:none}
+  .auth-result.show{display:block;animation:fadein .4s var(--ease)}
+  .auth-result .ln{color:var(--muted)}
+  .auth-result .ln .ok{color:var(--ok)}
+  .auth-result .ln .am{color:var(--amber)}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .mapwrap{padding:20px}
+  .engmap{width:100%;height:auto;display:block}
+  .engmap .grid-l{stroke:var(--line);stroke-width:1}
+  .engmap .peri{fill:none;stroke:oklch(0.62 0.09 161 / .35);stroke-width:1.2;stroke-dasharray:5 6}
+  .engmap .asset{fill:var(--amber)}
+  .engmap .carrier{fill:none;stroke:var(--text);stroke-width:1.4}
+  .engmap .path{fill:none;stroke:var(--amber);stroke-width:1.6;stroke-dasharray:520;stroke-dashoffset:520}
+  .engmap .path.run{animation:draw 2.4s var(--ease) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .engmap .hit{fill:var(--hostile);opacity:0}
+  .engmap .hit.run{animation:hit .5s var(--ease) 2.1s forwards}
+  @keyframes hit{0%{opacity:1;r:3}60%{opacity:1;r:11}100%{opacity:0;r:14}}
+  .engmap text{font-family:"IBM Plex Mono";fill:var(--muted-2);font-size:9px;letter-spacing:.08em}
+  .planner{border-top:1px solid var(--line);margin-top:16px;padding-top:14px;font-family:"IBM Plex Mono";font-size:12px}
+  .planner .ph{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:11px;display:flex;align-items:center;gap:8px}
+  .plog{display:flex;flex-direction:column;gap:9px}
+  .plog .pl{color:var(--muted);opacity:0;transform:translateX(-8px);transition:.5s var(--ease);display:flex;gap:10px}
+  .plog .pl.show{opacity:1;transform:none}
+  .plog .pl .tag{color:var(--amber);flex:none}
+  .plog .pl.clear .tag{color:var(--ok)}
+  .engmap .eng-dot .eg{fill:var(--accent-strong)}
+  .engmap .eng-dot .eglow{fill:oklch(0.62 0.09 161 / .3)}
+  .engmap .hit.flash{animation:hit .5s var(--ease) forwards}
+  .engmap .held-label{fill:var(--warn);font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+  .plog .pl.held .tag{color:var(--warn)}
+
+  /* capabilities (Surtr 01-04) */
+  .caps{border-top:1px solid var(--line)}
+  .cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:clamp(2.5rem,5vh,4rem);
+    border:1px solid var(--line);border-radius:0;overflow:hidden}
+  .cap{padding:38px 34px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .cap:nth-child(1),.cap:nth-child(2){border-top:0}
+  .cap:nth-child(odd){border-left:0}
+  .cap .cn{font-family:"Michroma";font-size:1rem;font-weight:400;color:var(--amber);letter-spacing:.04em}
+  .cap h3{font-size:1.5rem;margin:18px 0 0}
+  .cap .role{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-top:8px}
+  .cap p{color:var(--muted);margin-top:16px;font-size:.98rem;max-width:44ch}
+  .cap p .em{color:var(--text)}
+
+  /* team (Surtr-style) */
+  .team{border-top:1px solid var(--line);background:var(--bg-2)}
+  .people{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:clamp(2.5rem,5vh,3.5rem)}
+  .person{border:1px solid var(--line);border-radius:0;padding:30px 28px;background:var(--surface);transition:.3s var(--ease)}
+  .person:hover{border-color:var(--amber-dim)}
+  .person .av{width:46px;height:46px;border-radius:0;border:1px solid var(--amber-dim);display:grid;place-items:center;
+    font-family:"Archivo";color:var(--amber);font-size:1.05rem;margin-bottom:22px}
+  .person .nm{font-family:"Archivo";font-size:1.28rem;font-weight:600}
+  .person .role{font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-top:6px}
+  .person .bio{color:var(--muted);font-size:.95rem;margin-top:16px}
+  .person .li{display:inline-flex;align-items:center;gap:7px;font-family:"IBM Plex Mono";font-size:12px;color:var(--muted-2);margin-top:18px;transition:color .2s}
+  .person .li:hover{color:var(--amber)}
+  .team-note{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--muted-2);margin-top:26px;letter-spacing:.03em}
+
+  /* contact */
+  .brief{border-top:1px solid var(--line)}
+  .brief .split{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(3rem,6vw,6rem);align-items:start}
+  .brief h2{font-size:clamp(2rem,3.6vw,3rem)}
+  .brief .bl{list-style:none;padding:0;margin:28px 0 0;display:flex;flex-direction:column;gap:16px}
+  .brief .bl li{display:flex;gap:14px;color:var(--muted)}
+  .brief .bl li .ck{color:var(--amber);flex:none;margin-top:2px}
+  .brief .contact-line{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-family:"IBM Plex Mono";font-size:13px;color:var(--muted)}
+  .brief .contact-line a{color:var(--amber)}
+
+  form.req{background:var(--surface);border:1px solid var(--line);border-radius:0;padding:30px}
+  form.req .ft{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:2px;
+    color:var(--text);font-family:"Archivo";font-size:14.5px;padding:12px 14px;transition:.2s;}
+  .field textarea{resize:vertical;min-height:92px}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px oklch(0.62 0.09 161 / .12)}
+  .field input::placeholder,.field textarea::placeholder{color:var(--muted-2)}
+  .field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%238291A2' stroke-width='1.5' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 14px center}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  form.req .submit{width:100%;justify-content:center;margin-top:6px}
+  .form-note{font-family:"IBM Plex Mono";font-size:11px;color:var(--muted-2);margin-top:14px;text-align:center}
+  .form-ok{display:none;font-family:"IBM Plex Mono";font-size:13px;color:var(--ok);margin-top:16px;text-align:center;line-height:1.6}
+  .form-ok.show{display:block;animation:fadein .4s}
+
+  /* footer */
+  footer.ft{border-top:1px solid var(--line);background:var(--bg-2);padding:70px 0 40px}
+  .ft-epi{font-family:"Archivo";font-size:clamp(1.3rem,2.6vw,2rem);font-weight:500;letter-spacing:-.02em;max-width:24ch;color:var(--text)}
+  .ft-epi .q{color:var(--amber-dim)}
+  .ft-cols{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:36px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line)}
+  .ft-brand .brand{margin-bottom:14px}
+  .ft-brand p{color:var(--muted-2);font-size:13px;max-width:30ch}
+  .ft-col h4{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin:0 0 16px;font-weight:500}
+  .ft-col a,.ft-col span{display:block;color:var(--muted);font-size:13.5px;margin-bottom:11px;transition:color .2s}
+  .ft-col a:hover{color:var(--amber)}
+  .ft-base{display:flex;justify-content:space-between;align-items:center;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);
+    font-family:"IBM Plex Mono";font-size:11.5px;color:var(--muted-2);letter-spacing:.04em;flex-wrap:wrap;gap:12px}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:900px){
+    .nav-links{display:none}
+    .burger{display:block}
+    .step,.step.rev{grid-template-columns:1fr;gap:2rem}
+    .step.rev .step-copy{order:0}
+    .mission .cols{grid-template-columns:1fr;gap:24px}
+    .cap-grid{grid-template-columns:1fr}
+    .cap{border-left:0!important;border-top:1px solid var(--line)!important}
+    .cap:nth-child(1){border-top:0!important}
+    .people{grid-template-columns:1fr}
+    .brief .split{grid-template-columns:1fr;gap:2.5rem}
+    .ft-cols{grid-template-columns:1fr 1fr;gap:28px}
+    .ft-brand{grid-column:1/-1}
+    .radar{opacity:.35;right:-40%}
+    .hud .rd{display:none}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 20px}
+    header.nav{padding:14px 20px}
+    .hero-stats{gap:28px}
+    .assess{grid-template-columns:1fr}
+    .assess .col+.col{border-left:0;border-top:1px solid var(--line)}
+    .feeds{grid-template-columns:1fr}
+    .frow{grid-template-columns:1fr}
+    .ft-cols{grid-template-columns:1fr}
+    .ft-base{flex-direction:column;align-items:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none}
+    .engmap .path{stroke-dashoffset:0}
+    .plog .pl{opacity:1;transform:none}
+  }
+
+  /* --- doc sections (faithful rebuild) --- */
+  .band{border-top:1px solid var(--line);background:var(--bg-2)}
+  .lede{color:var(--muted);font-size:1.08rem;margin-top:20px;max-width:60ch}
+  .sec-h2{font-size:clamp(2rem,3.9vw,3.15rem);margin:22px 0 0}
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:clamp(2.5rem,5vh,3.5rem)}
+  .tcard{border:1px solid var(--line);background:var(--surface);padding:32px 28px;position:relative;transition:border-color .12s var(--ease)}
+  .tcard:hover{border-color:var(--line-2)}
+  .tcard .tn{font-family:"Michroma";font-size:.95rem;color:var(--amber);letter-spacing:.04em}
+  .tcard h3{font-size:1.3rem;margin:18px 0 0}
+  .tcard .role{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);margin-top:8px}
+  .tcard p{color:var(--muted);margin-top:16px;font-size:.97rem}
+  .sys{display:grid;grid-template-columns:0.95fr 1.05fr;gap:clamp(2.5rem,5vw,4.5rem);align-items:start;margin-top:clamp(2rem,4vh,3rem)}
+  .sys .lead{color:var(--muted);max-width:46ch}
+  .specs{border-top:1px solid var(--line)}
+  .spec{display:flex;justify-content:space-between;gap:28px;padding:18px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .spec .sv{font-family:"Michroma";font-size:1.05rem;color:var(--amber);flex:none;white-space:nowrap}
+  .spec .sl{color:var(--muted);font-size:.95rem}
+  .roadmap{display:flex;margin-top:clamp(2rem,4vh,3rem);border:1px solid var(--line)}
+  .stage{flex:1;padding:28px 24px;border-left:1px solid var(--line)}
+  .stage:first-child{border-left:0}
+  .stage .sn{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+  .stage .sd{font-family:"Michroma";font-size:1.05rem;margin-top:14px;color:var(--muted-2)}
+  .stage.live .sd{color:var(--amber)}
+  .roles{list-style:none;padding:0;margin:26px 0 0;border-top:1px solid var(--line)}
+  .roles li{padding:15px 0;border-bottom:1px solid var(--line);color:var(--fg-1,var(--text));font-family:"IBM Plex Mono";font-size:13.5px;letter-spacing:.02em;display:flex;justify-content:space-between;align-items:center}
+  .roles li span.ro{color:var(--muted-2);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+  .doc-note{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--muted-2);margin-top:22px;letter-spacing:.02em}
+  .closing-line{color:var(--muted);margin-top:16px;max-width:48ch}
+  @media(max-width:900px){
+    .trio{grid-template-columns:1fr}
+    .sys{grid-template-columns:1fr;gap:2rem}
+    .roadmap{flex-direction:column}
+    .stage{border-left:0;border-top:1px solid var(--line)}
+    .stage:first-child{border-top:0}
+  }
+
+  /* Perseus-style reveal + scroll progress */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(0.16,1,0.3,1),transform .85s cubic-bezier(0.16,1,0.3,1);will-change:opacity,transform}
+  .reveal.in{opacity:1;transform:none}
+  .scrollbar{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;pointer-events:none}
+  .scrollbar>i{display:block;height:100%;width:0;background:var(--amber);box-shadow:0 0 8px oklch(0.62 0.09 161 / .5);transition:width .1s linear}
+  /* Decision Cycle — degla scroll-through (pinned visual per step) */
+  .cycle .cycle-intro{margin-bottom:clamp(1.5rem,5vh,4rem)}
+  .csteps{display:flex;flex-direction:column}
+  .cstep{display:grid;grid-template-columns:0.82fr 1.18fr;gap:clamp(2.5rem,5vw,5.5rem);align-items:stretch;min-height:122vh}
+  .cstep:last-child{min-height:104vh}
+  .cs-copy{padding-top:17vh}
+  .cs-num{font-family:"Michroma";font-size:clamp(2.2rem,3.6vw,3.4rem);line-height:1;color:var(--line-2);letter-spacing:.02em;transition:color .45s var(--ease)}
+  .cstep.active .cs-num{color:var(--amber)}
+  .cs-copy h3{font-size:clamp(1.5rem,2.6vw,2.15rem);margin:16px 0 0;max-width:15ch;letter-spacing:-.02em;font-family:"Archivo";font-weight:600}
+  .cs-copy p{color:var(--muted);margin-top:18px;max-width:40ch}
+  .cs-copy p .em{color:var(--text);font-weight:500}
+  .cs-viz{position:relative}
+  .viz-inner{position:sticky;top:18vh;opacity:.5;transform:scale(.985);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+  .cstep.active .viz-inner{opacity:1;transform:none}
+  @media(max-width:900px){
+    .cstep{grid-template-columns:1fr;gap:1.4rem;min-height:auto;margin-bottom:11vh}
+    .cstep:last-child{min-height:auto}
+    .cs-copy{padding-top:0}
+    .cs-viz{position:static;top:auto}
+    .viz-inner{position:static;top:auto;opacity:1;transform:none}
+    .cs-num{color:var(--amber)}
+  }
+
+  /* BHASM cinematic scroll-scrubbed scene */
+  .bhasm-cine .shead{margin-bottom:clamp(1.5rem,4vh,3rem)}
+  .cine-box{position:relative;width:min(1120px,94vw);border:1px solid var(--line);background:radial-gradient(135% 105% at 50% 20%, var(--surface), var(--bg) 76%);overflow:hidden}
+  .cine-scene-wrap{position:relative}
+  .scene{display:block;width:100%;height:auto}
+  .cine-hud{position:absolute;top:16px;left:16px;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+  .cine-hud .chip{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:5px 9px;background:oklch(0.145 0.006 130 / .55)}
+  .cine-log{border-top:1px solid var(--line);padding:14px 20px 16px;background:oklch(0.145 0.006 130 / .45)}
+  .cine-log-hd{display:flex;align-items:center;gap:10px;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+  .cine-log-hd .ld{width:16px;height:1px;background:var(--amber)}
+  .cine-log-hd .live-tag{margin-left:auto;color:var(--amber);font-size:9.5px;letter-spacing:.18em}
+  .cine-log-lines{margin-top:12px;display:flex;flex-direction:column;gap:8px;font-family:"IBM Plex Mono";font-size:12.5px;color:var(--muted)}
+  .cine-log-lines .ll{opacity:.16;transform:translateX(-6px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .cine-log-lines .ll.show{opacity:1;transform:none}
+  .cine-log-lines .lt{display:inline-block;min-width:96px;color:var(--amber);margin-right:14px;letter-spacing:.1em}
+  .cine-caption{margin-top:22px;font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.05em;color:var(--muted-2);text-align:center;min-height:1.2em;transition:opacity .3s}
+  .scene .ring{fill:none;stroke:var(--line);opacity:.5}
+  .scene .ring.outer{stroke:var(--line-2);opacity:.42}
+  .scene .spoke{stroke:var(--line);opacity:.22}
+  .scene .drop{stroke:var(--line-2);stroke-dasharray:2 5;opacity:.5}
+  .scene .cshadow,.scene .tshadow{fill:oklch(0 0 0 / .35)}
+  .scene .cbody{fill:var(--amber)}
+  .scene .rotor{fill:none;stroke:var(--amber);stroke-width:1.4;opacity:.9}
+  .scene .arm{stroke:var(--amber);stroke-width:1;opacity:.5}
+  .scene .cpulse{fill:none;stroke:var(--amber);stroke-width:1;opacity:.5;animation:cpulse 3s ease-in-out infinite}
+  @keyframes cpulse{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.5;transform:scale(1.25)}}
+  .scene .ic-path{fill:none;stroke:var(--amber);stroke-width:1.6;opacity:.9}
+  .scene .ic-dot .icg{fill:var(--accent-strong)}
+  .scene .ic-dot .icglow{fill:oklch(0.62 0.09 161 / .3)}
+  .scene .apad{fill:none;stroke:var(--amber);opacity:.8}
+  .scene .acore{fill:var(--amber);opacity:.9}
+  .scene .tcore{fill:var(--hostile);transition:fill .3s}
+  .scene .threat .nring{fill:none;stroke:var(--amber);stroke-width:1.4;opacity:0;transition:opacity .35s}
+  .scene .threat.locked .tcore{stroke:var(--amber);stroke-width:2}
+  .scene .threat.gone{opacity:.3}
+  .scene .threat.gone .tcore{fill:var(--muted-2)}
+  .scene .threat.gone .nring{opacity:.6}
+  .scene text{font-family:"IBM Plex Mono";fill:var(--muted-2);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+  .scene .clabel,.scene .alabel,.scene .glabel{fill:var(--muted)}
+  @media(prefers-reduced-motion:reduce){.scene .cpulse{animation:none}}
+  @media(max-width:900px){
+    .cine-box{width:100%}
+    .cine-hud{position:static;flex-direction:row;flex-wrap:wrap;padding:12px 12px 0;gap:6px}
+    .cine-log-lines .lt{min-width:0;display:block;margin:0 0 2px}
+  }
+
+  .bhasm-cine .cine-box{margin:0 auto}
+  .cine-cmd{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 20px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .cine-cmd .cmd-line{display:flex;align-items:center;gap:10px;font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .cine-cmd.armed .cmd-line{color:var(--amber)}
+  .cine-cmd .cmd-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);animation:bhdot 1.6s ease-in-out infinite}
+  .cine-cmd.done .cmd-dot{background:var(--muted-2);box-shadow:none;animation:none}
+  .cine-cmd .cmd-sub{font-family:"IBM Plex Mono";font-size:11px;color:var(--muted-2);margin-top:5px;letter-spacing:.05em}
+  .cine-cmd .cmd-btns{display:flex;gap:10px;align-items:center}
+  .b-replay{display:none;font-family:"IBM Plex Mono";font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:11px 18px;border:1px solid var(--line-2);background:transparent;color:var(--text);cursor:pointer;transition:.15s var(--ease)}
+  .b-replay:hover{border-color:var(--amber);color:var(--amber)}
+  .cine-cmd.done .b-replay{display:inline-flex}
+  .cine-cmd.engaging .b-auth,.cine-cmd.engaging .b-hold,.cine-cmd.done .b-auth,.cine-cmd.done .b-hold{display:none}
+  @keyframes bhdot{0%,100%{opacity:1}50%{opacity:.4}}
+  .scene .threat .tcore{animation:thpulse 1.9s ease-in-out infinite}
+  @keyframes thpulse{0%,100%{opacity:1}50%{opacity:.5}}
+  @media(prefers-reduced-motion:reduce){.cine-cmd.armed #bhauth,.scene .threat .tcore,.cine-cmd .cmd-dot{animation:none}}
+
+  /* shiny attention buttons */
+  @keyframes shinyglow{0%,100%{box-shadow:0 0 0 0 oklch(0.62 0.09 161 / .55), 0 0 14px oklch(0.62 0.09 161 / .35)}50%{box-shadow:0 0 0 6px oklch(0.62 0.09 161 / 0), 0 0 24px oklch(0.62 0.09 161 / .6)}}
+  @keyframes sheen{0%{transform:translateX(-170%) skewX(-18deg)}58%,100%{transform:translateX(340%) skewX(-18deg)}}
+  .auth-btns .b-auth,.cine-cmd.armed #bhauth{position:relative;overflow:hidden;animation:shinyglow 2.1s ease-in-out infinite}
+  .auth-btns .b-auth::after,.cine-cmd.armed #bhauth::after{content:"";position:absolute;top:0;left:0;width:45%;height:100%;background:linear-gradient(100deg,transparent,oklch(1 0 0 / .32),transparent);animation:sheen 2.9s ease-in-out infinite;pointer-events:none}
+  .auth-btns.done .b-auth{animation:none}
+  .auth-btns.done .b-auth::after{display:none}
+  .engmap .trk03{fill:var(--hostile);animation:thpulse 1.8s ease-in-out infinite}
+  .engmap .trk03.gone{fill:var(--muted-2);animation:none}
+  .engmap .await-lbl{fill:var(--warn);font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.9}
+  @media(prefers-reduced-motion:reduce){.auth-btns .b-auth,.cine-cmd.armed #bhauth{animation:none}.auth-btns .b-auth::after,.cine-cmd.armed #bhauth::after{display:none}.engmap .trk03{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="scrollbar" aria-hidden="true"><i></i></div>
+<header class="nav" id="nav">
+  <a class="brand" href="#top"><img class="mark" src="data:image/png;base64,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" alt="Latitude 54" />LATITUDE&nbsp;54</a>
+  <nav class="nav-links">
+    <a class="lk" href="#platform">Platform</a>
+    <a class="lk" href="#systems">Systems</a>
+    <a class="lk" href="#domains">Domains</a>
+    <a class="lk" href="#careers">Careers</a>
+    <a class="lk" href="#contact">Contact</a>
+    <a class="btn nav-cta" href="#contact">Request a Briefing <span class="arw">→</span></a>
+  </nav>
+  <button class="burger" aria-label="Menu" onclick="document.getElementById('contact').scrollIntoView()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <svg class="radar" viewBox="0 0 400 400" aria-hidden="true">
+    <circle class="rng" cx="200" cy="200" r="60"/><circle class="rng" cx="200" cy="200" r="120"/><circle class="rng" cx="200" cy="200" r="180"/>
+    <line x1="200" y1="20" x2="200" y2="380"/><line x1="20" y1="200" x2="380" y2="200"/>
+    <g class="sweep"><path d="M200 200 L200 20 A180 180 0 0 1 340 108 Z" fill="url(#sg)"/></g>
+    <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="oklch(0.62 0.09 161 / .28)"/><stop offset="1" stop-color="oklch(0.62 0.09 161 / 0)"/></linearGradient></defs>
+    <circle class="blip" cx="262" cy="128" r="3"/><circle class="blip host" cx="140" cy="250" r="3.4"/><circle class="blip" cx="300" cy="230" r="2.5"/>
+  </svg>
+  <div class="hero-vignette"></div>
+  <div class="wrap">
+    <span class="eyebrow reveal">Autonomous Engagement Intelligence</span>
+    <h1 class="reveal">The brain inside <span class="em">autonomous defense.</span></h1>
+    <p class="sub reveal">From a sensor track to an authorized engagement — in seconds.</p>
+    <div class="hero-cta reveal">
+      <a class="btn" href="#contact">Request a Briefing <span class="arw">→</span></a>
+      <a class="btn btn--ghost" href="#platform">See the architecture ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section class="section band">
+  <div class="wrap">
+    <span class="eyebrow reveal">Why Now</span>
+    <h2 class="sec-h2 reveal" style="max-width:18ch">Autonomous threats stopped being theoretical.</h2>
+    <p class="lede reveal">AEOS closes the gap with intelligence — not more hardware.</p>
+  </div>
+</section>
+
+<!-- PLATFORM - AEOS (three layers) -->
+<section class="section" id="platform">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow reveal">Platform · AEOS</span>
+      <h2 class="sec-h2 reveal">One brain. Three layers.</h2>
+      <p class="lede reveal">The sensors change by domain — air, sea, ground. The decision-making core doesn't.</p>
+    </div>
+    <div class="trio">
+      <div class="tcard reveal">
+        <div class="tn">01</div><h3>Perception</h3>
+        <div class="role">Sensing</div>
+        <p>Every sensor, fused into one picture.</p>
+      </div>
+      <div class="tcard reveal">
+        <div class="tn">02</div><h3>Intelligence · NETRA</h3>
+        <div class="role">Decision</div>
+        <p>Classifies, scores intent, assigns the response. Where AEOS decides.</p>
+      </div>
+      <div class="tcard reveal">
+        <div class="tn">03</div><h3>Execution</h3>
+        <div class="role">Response</div>
+        <p>Guides, confirms, and re-solves — automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DECISION CYCLE (worked scenario, interactive) -->
+<section class="section cycle" id="process">
+  <div class="wrap">
+    <div class="shead cycle-intro">
+      <span class="eyebrow reveal">The Decision Cycle</span>
+      <h2 class="sec-h2 reveal">An engagement in three steps.</h2>
+      <p class="lede reveal">One track to a confirmed engagement — in seconds. Exactly one step waits for a human.</p>
+    </div>
+  </div>
+  <div class="wrap csteps">
+    <div class="cstep" data-i="0">
+      <div class="cs-copy reveal">
+        <div class="cs-num">01</div>
+        <h3>Watch the perimeter.</h3>
+        <p>NETRA fuses every sensor into one picture. <span class="em">No separate radar feed. No separate thermal feed. No manual correlation</span> — just one unified picture.</p>
+      </div>
+      <div class="cs-viz"><div class="viz-inner"><div class="panel">
+          <div class="panel-hd"><span>Sensor Fusion · Sector 7</span><span class="live"><span class="d"></span>Live</span></div>
+          <div class="fusion">
+            <div class="feeds">
+              <div class="feed"><div class="fl">Radar</div><div class="wave"><span style="animation-delay:0s"></span><span style="animation-delay:.1s"></span><span style="animation-delay:.2s"></span><span style="animation-delay:.3s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.25s"></span></div></div>
+              <div class="feed"><div class="fl">Thermal</div><div class="wave"><span style="animation-delay:.2s"></span><span style="animation-delay:.35s"></span><span style="animation-delay:.05s"></span><span style="animation-delay:.3s"></span><span style="animation-delay:.4s"></span><span style="animation-delay:.1s"></span></div></div>
+              <div class="feed"><div class="fl">Acoustic</div><div class="wave"><span style="animation-delay:.3s"></span><span style="animation-delay:.15s"></span><span style="animation-delay:.4s"></span><span style="animation-delay:.05s"></span><span style="animation-delay:.25s"></span><span style="animation-delay:.35s"></span></div></div>
+            </div>
+            <div class="fusion-arrow">↓&nbsp;&nbsp;correlated · fused&nbsp;&nbsp;↓</div>
+            <div class="unified">
+              <div style="display:flex;align-items:center;gap:16px"><div class="um">◎</div><div class="ut">One unified picture</div></div>
+              <div class="mono" style="font-size:11px;color:var(--muted-2)">3 TRACKS</div>
+            </div>
+          </div>
+        </div></div></div>
+    </div>
+    <div class="cstep" data-i="1" id="step2">
+      <div class="cs-copy reveal">
+        <div class="cs-num">02</div>
+        <h3>NETRA classifies the threat automatically.</h3>
+        <p>It classifies every track, scores intent, assigns interceptors, and prepares for what happens next — <span class="em">all before the threat closes.</span> Exactly one step waits for a human: the engagement itself.</p>
+      </div>
+      <div class="cs-viz"><div class="viz-inner"><div class="panel">
+          <div class="panel-hd"><span>Assessment · Sector 7</span><span class="live"><span class="d"></span>Live</span></div>
+          <div class="assess">
+            <div class="col">
+              <div class="col-t">Classification</div>
+              <div class="scan">Reading northeast quadrant<br>Correlating <span class="hi">radar · thermal · acoustic</span></div>
+              <div class="tracks">
+                <div class="trk"><span class="td"></span>Track 01 · quadcopter · transiting</div>
+                <div class="trk"><span class="td"></span>Track 02 · quadcopter · loitering</div>
+                <div class="trk hostile"><span class="td"></span>Track 03 · fixed-wing · one-way profile</div>
+              </div>
+              <div class="intent"><div class="lab"><span>Intent · Track 03</span><b id="intentVal">0.00</b></div><div class="bar"><i id="intentBar"></i></div></div>
+              <div class="scan" style="margin-top:12px;font-size:11.5px;color:var(--muted-2)">Bearing-locked on protected asset · monitoring · re-solving ⋯</div>
+            </div>
+            <div class="col">
+              <div class="col-t">Interceptors · 5 ready</div>
+              <div class="icept">
+                <div class="ic assigned"><div class="icr"><span class="nm">Interceptor 2</span><span class="st" id="ic2st">Assigned · guiding</span></div><div class="sub" id="ic2sub">APN midcourse · closing · seeker acquired 300m</div></div>
+                <div class="ic"><div class="icr"><span class="nm">Interceptor 1</span><span class="st">Standby ready</span></div><div class="sub">fuel 100% · link nominal</div></div>
+                <div class="ic"><div class="icr"><span class="nm">Interceptor 3</span><span class="st">Standby ready</span></div><div class="sub">position holding</div></div>
+                <div class="ic"><div class="icr"><span class="nm">Interceptors 4–5</span><span class="st">Reserve holding</span></div><div class="sub">retask-ready if interceptor 2 misses</div></div>
+              </div>
+              <div class="authz">
+                <div class="q"><span class="d"></span><span id="authQ">Awaiting authorization</span></div>
+                <div class="asg">Track 03 → <b>Interceptor 2</b></div>
+                <div class="auth-btns" id="authBtns"><button class="b-auth" onclick="authorize()">Authorize</button><button class="b-hold" onclick="holdEngage()">Hold</button></div>
+                <div class="auth-result" id="authResult"></div>
+              </div>
+            </div>
+          </div>
+        </div></div></div>
+    </div>
+    <div class="cstep" data-i="2" id="step3">
+      <div class="cs-copy reveal">
+        <div class="cs-num">03</div>
+        <h3>The engagement resolves and adapts.</h3>
+        <p>Once authorized, the engagement keeps evolving. NETRA responds to a miss, a new track, or a changing picture in real time. <span class="em">No manual retasking required.</span></p>
+      </div>
+      <div class="cs-viz"><div class="viz-inner"><div class="panel">
+          <div class="panel-hd"><span>Protected Asset · Sector 7</span><span class="live"><span class="d"></span>Planner</span></div>
+          <div class="mapwrap">
+            <svg class="engmap" id="engmap" viewBox="0 0 460 250" aria-label="Engagement map">
+              <line class="grid-l" x1="0" y1="62" x2="460" y2="62"/><line class="grid-l" x1="0" y1="125" x2="460" y2="125"/><line class="grid-l" x1="0" y1="188" x2="460" y2="188"/>
+              <line class="grid-l" x1="115" y1="0" x2="115" y2="250"/><line class="grid-l" x1="230" y1="0" x2="230" y2="250"/><line class="grid-l" x1="345" y1="0" x2="345" y2="250"/>
+              <circle class="peri" cx="230" cy="125" r="96"/><text x="238" y="35">PERIMETER · 15KM</text>
+              <circle class="asset" cx="230" cy="125" r="4"/><text x="238" y="140">PROTECTED ASSET</text>
+              <path class="carrier" d="M225 92 l5 -8 l5 8 l-5 -3 z"/><text x="242" y="88">CARRIER</text>
+              <path class="path" id="engPath" d="M230 92 C 300 70, 360 120, 388 170"/><circle class="hit" id="engHit" cx="388" cy="170" r="3"/><text x="352" y="192">TRACK 03</text><circle class="trk03" id="trk03" cx="388" cy="170" r="3.5"/><text class="await-lbl" id="engAwait" x="150" y="240">Awaiting authorization</text><g class="eng-dot" id="engDot" style="opacity:0"><circle class="eglow" r="6"/><path class="eg" d="M0,-3.4 L2.6,2.6 L-2.6,2.6 Z"/></g><text class="held-label" id="engHeld" x="296" y="116" style="opacity:0">HOLD · MONITORING</text>
+            </svg>
+            <div class="planner">
+              <div class="ph"><span class="live"><span class="d"></span></span>NETRA planner</div>
+              <div class="plog" id="plog">
+                <div class="pl"><span class="tag">CONFIRMED</span><span>Track 03 neutralized — remaining tracks hold.</span></div>
+                <div class="pl"><span class="tag">NEW&nbsp;TRACK</span><span>Track 04 detected — classification in progress.</span></div>
+                <div class="pl clear"><span class="tag">CLEAR</span><span>No further threats — carrier resumes patrol.</span></div>
+                <div class="pl held"><span class="tag">HELD</span><span>Engagement held — monitoring · re-solving · authorize to engage.</span></div>
+              </div>
+            </div>
+          </div>
+        </div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS - BHASM (interactive "try me") -->
+<section class="section bhasm-cine" id="systems">
+  <div class="wrap shead">
+    <span class="eyebrow reveal">Systems · BHASM</span>
+    <h2 class="sec-h2 reveal">BHASM — AEOS, in the air domain.</h2>
+    <p class="lede reveal">One carrier, five interceptors — each hunting a separate threat. <span class="em">Authorize the release to run it.</span></p>
+  </div>
+  <div class="wrap">
+    <div class="cine-box">
+      <div class="cine-scene-wrap">
+        <svg class="scene" viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" aria-label="BHASM engagement — one carrier releasing five interceptors">
+    <g class="ground"><ellipse class="ring outer" cx="500" cy="380" rx="380" ry="140"/>
+    <ellipse class="ring" cx="500" cy="380" rx="250" ry="92"/>
+    <ellipse class="ring" cx="500" cy="380" rx="120" ry="44"/><line class="spoke" x1="500" y1="380" x2="760" y2="265"/><line class="spoke" x1="500" y1="380" x2="360" y2="265"/><line class="spoke" x1="500" y1="380" x2="845" y2="410"/><line class="spoke" x1="500" y1="380" x2="165" y2="395"/><line class="spoke" x1="500" y1="380" x2="500" y2="510"/></g>
+    <g class="asset" transform="translate(500,380)">
+      <path class="apad" d="M-16,0 L0,-8 L16,0 L0,8 Z"/>
+      <rect class="acore" x="-4" y="-18" width="8" height="13"/>
+      <text class="alabel" x="22" y="4">Protected asset</text>
+    </g>
+    <text class="glabel" x="650" y="508">Perimeter · 15 km</text>
+    <text class="glabel" x="120" y="70">Sector 07</text>
+    <path class="ic-path" id="icp0" d="M500,130 C 650,130 725,175 760,225"/><path class="ic-path" id="icp1" d="M500,130 C 360,130 305,180 360,225"/><path class="ic-path" id="icp2" d="M500,130 C 710,155 830,275 845,370"/><path class="ic-path" id="icp3" d="M500,130 C 310,160 195,270 165,355"/><path class="ic-path" id="icp4" d="M500,130 C 520,275 510,405 500,470"/>
+    <g class="threat" id="thr0" transform="translate(760,225)">
+      <line class="drop" x1="0" y1="0" x2="0" y2="40"/>
+      <ellipse class="tshadow" cx="0" cy="42" rx="9" ry="3.4"/>
+      <circle class="nring" r="12"/>
+      <rect class="tcore" x="-5" y="-5" width="10" height="10" transform="rotate(45)"/>
+      <text class="tlabel" x="12" y="-8">T-01</text>
+    </g><g class="threat" id="thr1" transform="translate(360,225)">
+      <line class="drop" x1="0" y1="0" x2="0" y2="40"/>
+      <ellipse class="tshadow" cx="0" cy="42" rx="9" ry="3.4"/>
+      <circle class="nring" r="12"/>
+      <rect class="tcore" x="-5" y="-5" width="10" height="10" transform="rotate(45)"/>
+      <text class="tlabel" x="12" y="-8">T-02</text>
+    </g><g class="threat" id="thr2" transform="translate(845,370)">
+      <line class="drop" x1="0" y1="0" x2="0" y2="40"/>
+      <ellipse class="tshadow" cx="0" cy="42" rx="9" ry="3.4"/>
+      <circle class="nring" r="12"/>
+      <rect class="tcore" x="-5" y="-5" width="10" height="10" transform="rotate(45)"/>
+      <text class="tlabel" x="12" y="-8">T-03</text>
+    </g><g class="threat" id="thr3" transform="translate(165,355)">
+      <line class="drop" x1="0" y1="0" x2="0" y2="40"/>
+      <ellipse class="tshadow" cx="0" cy="42" rx="9" ry="3.4"/>
+      <circle class="nring" r="12"/>
+      <rect class="tcore" x="-5" y="-5" width="10" height="10" transform="rotate(45)"/>
+      <text class="tlabel" x="12" y="-8">T-04</text>
+    </g><g class="threat" id="thr4" transform="translate(500,470)">
+      <line class="drop" x1="0" y1="0" x2="0" y2="40"/>
+      <ellipse class="tshadow" cx="0" cy="42" rx="9" ry="3.4"/>
+      <circle class="nring" r="12"/>
+      <rect class="tcore" x="-5" y="-5" width="10" height="10" transform="rotate(45)"/>
+      <text class="tlabel" x="12" y="-8">T-05</text>
+    </g>
+    <g class="carrier" transform="translate(500,130)">
+      <line class="drop" x1="0" y1="0" x2="0" y2="250"/>
+      <ellipse class="cshadow" cx="0" cy="252" rx="15" ry="5.5"/>
+      <circle class="cpulse" r="16"/>
+      <g class="cglyph">
+        <circle class="rotor" cx="-15" cy="-9" r="5.5"/><circle class="rotor" cx="15" cy="-9" r="5.5"/>
+        <circle class="rotor" cx="-15" cy="9" r="5.5"/><circle class="rotor" cx="15" cy="9" r="5.5"/>
+        <line class="arm" x1="-15" y1="-9" x2="15" y2="9"/><line class="arm" x1="15" y1="-9" x2="-15" y2="9"/>
+        <rect class="cbody" x="-9" y="-7" width="18" height="14" rx="2"/>
+      </g>
+      <text class="clabel" x="26" y="-11">Carrier · on station</text>
+    </g>
+    <g class="ic-dot" id="icd0" style="opacity:0"><circle class="icglow" r="8"/><path class="icg" d="M0,-4.5 L3.4,3.4 L-3.4,3.4 Z"/></g><g class="ic-dot" id="icd1" style="opacity:0"><circle class="icglow" r="8"/><path class="icg" d="M0,-4.5 L3.4,3.4 L-3.4,3.4 Z"/></g><g class="ic-dot" id="icd2" style="opacity:0"><circle class="icglow" r="8"/><path class="icg" d="M0,-4.5 L3.4,3.4 L-3.4,3.4 Z"/></g><g class="ic-dot" id="icd3" style="opacity:0"><circle class="icglow" r="8"/><path class="icg" d="M0,-4.5 L3.4,3.4 L-3.4,3.4 Z"/></g><g class="ic-dot" id="icd4" style="opacity:0"><circle class="icglow" r="8"/><path class="icg" d="M0,-4.5 L3.4,3.4 L-3.4,3.4 Z"/></g>
+  </svg>
+        <div class="cine-hud">
+          <span class="chip">Up to 20 simultaneous threats</span>
+          <span class="chip">5 interceptors · revolver-fed</span>
+          <span class="chip">Terminal guidance · independent</span>
+        </div>
+      </div>
+      <div class="cine-cmd armed" id="cineCmd">
+        <div class="cmd-info">
+          <div class="cmd-line"><span class="cmd-dot"></span><span id="cmdStatus">Awaiting authorization</span></div>
+          <div class="cmd-sub">Carrier 03 → 5 interceptors · revolver-fed</div>
+        </div>
+        <div class="cmd-btns" id="cmdBtns">
+          <button class="b-auth" id="bhauth" onclick="bhAuthorize()">Authorize release <span class="arw">→</span></button>
+          <button class="b-hold" id="bhhold" onclick="bhHold()">Hold</button>
+          <button class="b-replay" id="bhreplay" onclick="bhReplay()">↻ Run it again</button>
+        </div>
+      </div>
+      <div class="cine-log">
+        <div class="cine-log-hd"><span class="ld"></span>BHASM planner<span class="live-tag">● LIVE</span></div>
+        <div class="cine-log-lines">
+          <div class="ll"><span class="lt">ON STATION</span>Carrier holding · sector 07 · 15 km perimeter</div>
+          <div class="ll"><span class="lt">CLASSIFIED</span>5 threats inbound · intent scored</div>
+          <div class="ll"><span class="lt">RELEASED</span>Interceptors 1–5 · revolver-fed</div>
+          <div class="ll"><span class="lt">TERMINAL</span>Guidance independent of the uplink</div>
+          <div class="ll"><span class="lt">CLEAR</span>Neutralised ×5 · carrier re-solving</div>
+        </div>
+      </div>
+    </div>
+    <div class="cine-caption">Carrier on station — authorize to release the interceptors.</div>
+  </div>
+</section>
+
+<!-- DOMAINS -->
+<section class="section band" id="domains">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow reveal">Domains</span>
+      <h2 class="sec-h2 reveal">One brain. Every domain.</h2>
+      <p class="lede reveal">Same brain, adapted senses — air, then sea, then ground.</p>
+    </div>
+    <div class="roadmap reveal">
+      <div class="stage live"><div class="sn">Live</div><div class="sd">Air</div></div>
+      <div class="stage"><div class="sn">Next</div><div class="sd">Maritime</div></div>
+      <div class="stage"><div class="sn">Next</div><div class="sd">Ground</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="section" id="principles">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow reveal">Principles</span>
+      <h2 class="sec-h2 reveal">Built to be owned — not licensed from someone else's government.</h2>
+    </div>
+    <div class="trio">
+      <div class="tcard reveal">
+        <h3>Full sovereignty</h3>
+        <p>No ITAR. Modify and operate it without a foreign government's sign-off.</p>
+      </div>
+      <div class="tcard reveal">
+        <h3>Human authorization, always</h3>
+        <p>Every lethal engagement waits for a human — by design, not compliance.</p>
+      </div>
+      <div class="tcard reveal">
+        <h3>The brain first</h3>
+        <p>Hardware proves the intelligence. It was never the point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section class="section band" id="careers">
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow reveal">Careers</span>
+      <h2 class="sec-h2 reveal">Building the brain, from the ground up.</h2>
+      <p class="lede reveal">A founding-stage team across perception, decision systems, guidance and integration. If this is your problem, let's talk.</p>
+    </div>
+    <ul class="roles reveal">
+      <li>GNC / Guidance Engineer <span class="ro">Open</span></li>
+      <li>Perception &amp; Sensor Fusion Engineer <span class="ro">Open</span></li>
+      <li>Machine Learning Engineer — Classification &amp; Intent <span class="ro">Open</span></li>
+      <li>Systems Integration Engineer <span class="ro">Open</span></li>
+      <li>Defense Business Development Lead <span class="ro">Open</span></li>
+    </ul>
+    <div class="doc-note">// Template roles — swap in real, open requisitions before this goes live.</div>
+  </div>
+</section>
+
+<!-- CONTACT / CLOSING -->
+<section class="section brief" id="contact">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <span class="eyebrow reveal">Request a Briefing</span>
+        <h2 class="reveal" style="margin-top:22px">Tell us what you're protecting.</h2>
+        <p class="closing-line reveal">For defense ministries, prime contractors and investors evaluating autonomous engagement capability.</p>
+        <ul class="bl reveal">
+          <li><span class="ck">→</span><span>See a live engagement scored in seconds.</span></li>
+          <li><span class="ck">→</span><span>Explore where NETRA fits your perimeter.</span></li>
+          <li><span class="ck">→</span><span>Work directly with us during evaluation.</span></li>
+        </ul>
+        <div class="contact-line reveal">Already in evaluation? Talk to your contact, or email <a href="mailto:contact@latitude54.ai">contact@latitude54.ai</a></div>
+      </div>
+      <form class="req reveal" id="briefForm" onsubmit="return submitBrief(event)">
+        <div class="ft">// Secure enquiry</div>
+        <div class="frow">
+          <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" placeholder="Full name" required /></div>
+          <div class="field"><label for="f-org">Organization</label><input id="f-org" type="text" placeholder="Ministry / company" /></div>
+        </div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" placeholder="you@yourministry.gov" required /></div>
+        <div class="field"><label for="f-role">I am a…</label>
+          <select id="f-role" required><option value="" disabled selected>Select role</option><option>Government</option><option>Prime Contractor</option><option>Investor</option><option>Press</option><option>Other</option></select>
+        </div>
+        <div class="field"><label for="f-ctx">Operational context</label><textarea id="f-ctx" placeholder="Describe your mission, threat environment and objectives."></textarea></div>
+        <button class="btn submit" type="submit">Send request <span class="arw">→</span></button>
+        <div class="form-note">Encrypted in transit · reviewed by the founding team</div>
+        <div class="form-ok" id="formOk">✓ Request prepared. Your mail client will open to send it securely.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="wrap">
+    <p class="ft-epi"><span class="q">“</span>The nation that owns its defense AI, owns its defense.<span class="q">”</span></p>
+    <div class="ft-cols">
+      <div class="ft-brand">
+        <a class="brand" href="#top"><img class="mark" src="data:image/png;base64,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" alt="Latitude 54" />LATITUDE&nbsp;54</a>
+        <p>The decision-making intelligence inside autonomous defense systems.</p>
+      </div>
+      <div class="ft-col"><h4>Navigation</h4><a href="#platform">Platform</a><a href="#systems">Systems</a><a href="#domains">Domains</a><a href="#careers">Careers</a><a href="#contact">Contact</a></div>
+      <div class="ft-col"><h4>Email</h4><a href="mailto:contact@latitude54.ai">contact@latitude54.ai</a></div>
+      <div class="ft-col"><h4>Social</h4><a href="#">X</a><a href="#">LinkedIn</a></div>
+      <div class="ft-col"><h4>Legal</h4><a href="#">Privacy</a></div>
+    </div>
+    <div class="ft-base"><span>© 2026 Latitude 54 · All rights reserved.</span><span>Autonomous Engagement Intelligence</span></div>
+  </div>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  const sbar=document.querySelector('.scrollbar>i');
+  const radar=document.querySelector('.radar');
+  function onScroll(){nav.classList.toggle('scrolled',scrollY>24);
+    const h=document.documentElement.scrollHeight-innerHeight;
+    if(sbar)sbar.style.width=(h>0?scrollY/h*100:0)+'%';
+    if(radar&&!window.__reduce&&scrollY<innerHeight*1.3)radar.style.transform='translateY(calc(-50% + '+(scrollY*0.06)+'px))';
+    if(typeof updateCycle==='function')updateCycle();
+  }
+  addEventListener('scroll',onScroll,{passive:true});
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.16});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i%4,3)*70)+'ms';io.observe(el);});
+
+  window.__reduce=reduce;
+  let intentDone=false;
+  function startIntent(){if(intentDone)return;intentDone=true;
+    const bar=document.getElementById('intentBar'),val=document.getElementById('intentVal');
+    setTimeout(()=>{bar.style.width='91%';},250);
+    let v=0;const t=setInterval(()=>{v+=0.04;if(v>=0.91){v=0.91;clearInterval(t);}val.textContent=v.toFixed(2);},40);
+  }
+
+  let authState=null;
+  function authorize(){if(authState==='auth')return;authState='auth';
+    document.getElementById('authQ').textContent='Authorized';
+    document.getElementById('ic2st').textContent='Engaging';
+    document.getElementById('ic2sub').textContent='terminal guidance · seeker locked · closing';
+    const r=document.getElementById('authResult');
+    r.innerHTML='<div class="ln"><span class="am">›</span> Interceptor 2 released — track 03.</div><div class="ln"><span class="am">›</span> Terminal guidance independent of uplink.</div><div class="ln"><span class="ok">✓</span> Intercept confirmed — sector re-solving.</div>';
+    r.classList.add('show');
+    document.getElementById('authBtns').style.opacity='.4';document.getElementById('authBtns').style.pointerEvents='none';document.getElementById('authBtns').classList.add('done');
+  }
+  function holdEngage(){if(authState)return;authState='hold';
+    document.getElementById('authQ').textContent='Holding';
+    const r=document.getElementById('authResult');
+    r.innerHTML='<div class="ln"><span class="am">›</span> Engagement held — track 03 monitored.</div><div class="ln"><span class="am">›</span> Interceptor 2 maintains guiding solution.</div><div class="ln muted">Re-solving in real time · authorize when ready.</div>';
+    r.classList.add('show');document.getElementById('authBtns').classList.add('done');
+  }
+  let engRan=false;
+  function runEngagement(){if(engRan)return;engRan=true;
+    const path=document.getElementById('engPath'),dot=document.getElementById('engDot'),hit=document.getElementById('engHit');
+    const L=path.getTotalLength(); path.style.strokeDasharray=L; path.style.strokeDashoffset=L;
+    const plns=[...document.querySelectorAll('#plog .pl:not(.held)')];
+    const aw=document.getElementById('engAwait'); if(aw)aw.style.opacity=0;
+    const dur=window.__reduce?200:2000, t0=performance.now(); dot.style.opacity=1;
+    requestAnimationFrame(function tick(t){const k=Math.min(1,(t-t0)/dur);
+      path.style.strokeDashoffset=L*(1-k);
+      const pt=path.getPointAtLength(L*k); dot.setAttribute('transform','translate('+pt.x+','+pt.y+')');
+      if(k<1) requestAnimationFrame(tick);
+      else{ dot.style.opacity=0; hit.classList.add('flash'); const tk=document.getElementById('trk03'); if(tk)tk.classList.add('gone');
+        plns.forEach((l,i)=>setTimeout(()=>l.classList.add('show'), window.__reduce?0:200+i*650)); }
+    });
+  }
+  function runHeld(){if(engRan)return;engRan=true;
+    const aw=document.getElementById('engAwait'); if(aw)aw.style.opacity=0;
+    const h=document.getElementById('engHeld'); if(h)h.style.opacity=1;
+    const hp=document.querySelector('#plog .pl.held'); if(hp)hp.classList.add('show');
+  }
+  function enterStep3(){ if(authState==='auth') runEngagement(); else if(authState==='hold') runHeld(); }
+  const csteps=[...document.querySelectorAll('.cstep')];
+  function updateCycle(){const cy=innerHeight/2;let best=-1;
+    csteps.forEach((s,idx)=>{const r=s.getBoundingClientRect();if(r.top<=cy&&r.bottom>=cy)best=idx;});
+    csteps.forEach((s,idx)=>s.classList.toggle('active',idx===best));
+    if(best===1)startIntent();if(best===2)enterStep3();
+  }
+  onScroll();
+
+  function submitBrief(ev){ev.preventDefault();
+    const name=document.getElementById('f-name').value.trim(),org=document.getElementById('f-org').value.trim(),
+      email=document.getElementById('f-email').value.trim(),role=document.getElementById('f-role').value,ctx=document.getElementById('f-ctx').value.trim();
+    const body=`Name: ${name}%0D%0AOrganization: ${org}%0D%0AEmail: ${email}%0D%0ARole: ${role}%0D%0A%0D%0AOperational context:%0D%0A${encodeURIComponent(ctx)}`;
+    document.getElementById('formOk').classList.add('show');
+    setTimeout(()=>{window.location.href=`mailto:contact@latitude54.ai?subject=${encodeURIComponent('Briefing request — '+name)}&body=${body}`;},600);
+    return false;
+  }
+
+  (function(){
+    const sec=document.getElementById('systems'); if(!sec) return;
+    const scene=sec.querySelector('.scene');
+    const paths=[...scene.querySelectorAll('.ic-path')], dots=[...scene.querySelectorAll('.ic-dot')], threats=[...scene.querySelectorAll('.threat')];
+    const lines=[...sec.querySelectorAll('.cine-log-lines .ll')], caption=sec.querySelector('.cine-caption');
+    const cmd=sec.querySelector('#cineCmd'), statusEl=sec.querySelector('#cmdStatus');
+    const lens=paths.map(p=>p.getTotalLength());
+    paths.forEach((p,i)=>{p.style.strokeDasharray=lens[i];p.style.strokeDashoffset=lens[i];});
+    const startOf=i=>0.06+i*0.11, DUR=0.40;
+    const caps=[[0,'Carrier on station — authorize to release the interceptors.'],[0.15,'Interceptors away — each hunting a separate threat.'],[0.6,'Terminal guidance — independent of the uplink.'],[0.9,'Threats neutralised — carrier re-solving. Sector clear.']];
+    const logAt=[0.02,0.12,0.22,0.55,0.9];
+    let curP=0, raf=null, state='armed';
+    function render(p){
+      for(let i=0;i<paths.length;i++){
+        const pr=Math.max(0,Math.min(1,(p-startOf(i))/DUR)), L=lens[i];
+        paths[i].style.strokeDashoffset=L*(1-pr);
+        const pt=paths[i].getPointAtLength(L*pr);
+        dots[i].setAttribute('transform','translate('+pt.x+','+pt.y+')');
+        dots[i].style.opacity=(pr>0&&pr<1)?1:0;
+        threats[i].classList.toggle('locked', pr>0.55&&pr<1);
+        threats[i].classList.toggle('gone', pr>=1);
+      }
+      lines.forEach((l,i)=>l.classList.toggle('show',p>=logAt[i]));
+      let cap=caps[0][1]; for(const cc of caps) if(p>=cc[0]) cap=cc[1];
+      if(caption) caption.textContent=cap;
+    }
+    function playTo(target,dur,after){cancelAnimationFrame(raf);const t0=performance.now(),from=curP;
+      (function tick(t){const k=dur<=0?1:Math.min(1,(t-t0)/dur);curP=from+(target-from)*k;render(curP);
+        if(k<1)raf=requestAnimationFrame(tick);else if(after)after();})(performance.now());}
+    window.bhAuthorize=function(){ if(state==='engaging'||state==='clear')return; state='engaging';
+      cmd.classList.remove('armed','held'); cmd.classList.add('engaging');
+      statusEl.textContent='Release authorized — interceptors away';
+      playTo(1, window.__reduce?300:4200, function(){ state='clear'; cmd.classList.remove('engaging'); cmd.classList.add('done');
+        statusEl.textContent='Sector clear — carrier re-solving'; }); };
+    window.bhHold=function(){ if(state!=='armed')return; state='held'; cmd.classList.remove('armed'); cmd.classList.add('held');
+      statusEl.textContent='Engagement held — maintaining track · authorize when ready'; };
+    window.bhReplay=function(){ cancelAnimationFrame(raf); state='armed'; curP=0; render(0);
+      cmd.classList.remove('done','engaging','held'); cmd.classList.add('armed');
+      statusEl.textContent='Awaiting authorization'; };
+    render(0);
+  })();
+</script>
+</body>
+</html>
