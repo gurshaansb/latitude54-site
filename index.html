@@ -471,6 +471,23 @@
   .engmap .trk03.gone{fill:var(--muted-2);animation:none}
   .engmap .await-lbl{fill:var(--warn);font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.9}
   @media(prefers-reduced-motion:reduce){.auth-btns .b-auth,.cine-cmd.armed #bhauth{animation:none}.auth-btns .b-auth::after,.cine-cmd.armed #bhauth::after{display:none}.engmap .trk03{animation:none}}
+
+  /* BHASM flight video */
+  .bhasm-video{position:relative;border:1px solid var(--line);background:var(--bg-2);aspect-ratio:16/9;overflow:hidden;margin:0 auto clamp(2rem,5vh,3.5rem);max-width:1120px}
+  .bvid{display:block;width:100%;height:100%;object-fit:cover}
+  .bvid-play{position:absolute;inset:0;margin:auto;width:max-content;height:max-content;display:flex;align-items:center;gap:11px;padding:15px 26px;border:1px solid var(--amber);background:oklch(0.62 0.09 161 / .16);color:var(--amber);font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(3px);transition:background .15s var(--ease);animation:shinyglow 2.1s ease-in-out infinite}
+  .bvid-play:hover{background:oklch(0.62 0.09 161 / .26)}
+  .bvid-play .tri{font-size:10px}
+
+  /* hero background video (live footage) */
+  .hero.has-video .radar,.hero.has-video .hero-grid,.hero.has-video .hero-glow{display:none}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+    linear-gradient(180deg, oklch(0.145 0.006 130 / .5) 0%, oklch(0.145 0.006 130 / .42) 42%, oklch(0.145 0.006 130 / .97) 100%),
+    linear-gradient(90deg, oklch(0.145 0.006 130 / .86) 0%, oklch(0.145 0.006 130 / .32) 56%, oklch(0.145 0.006 130 / 0) 100%)}
+  .hero.has-video .wrap{position:relative;z-index:2}
+  .hero.has-video h1{text-shadow:0 2px 34px oklch(0.145 0.006 130 / .65)}
+  .hero.has-video .sub,.hero.has-video .eyebrow{text-shadow:0 1px 18px oklch(0.145 0.006 130 / .7)}
 </style>
 </head>
 <body>
@@ -492,7 +509,11 @@
 </header>
 
 <!-- HERO -->
-<section class="hero" id="top">
+<section class="hero has-video" id="top">
+  <video class="hero-video" id="heroVid" poster="l54-poster.jpg" muted loop playsinline preload="auto">
+    <source src="l54-intro.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim"></div>
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <svg class="radar" viewBox="0 0 400 400" aria-hidden="true">
@@ -659,6 +680,16 @@
     <span class="eyebrow reveal">Systems · BHASM</span>
     <h2 class="sec-h2 reveal">BHASM — AEOS, in the air domain.</h2>
     <p class="lede reveal">One carrier, five interceptors — each hunting a separate threat. <span class="em">Authorize the release to run it.</span></p>
+  </div>
+  <div class="wrap">
+    <div class="bhasm-video reveal">
+      <video id="bhasmVid" class="bvid" poster="bhasm-poster.jpg" playsinline preload="none">
+        <source src="bhasm.mp4" type="video/mp4">
+      </video>
+      <button class="bvid-play" id="bvidPlay" onclick="playBhasmVid()" aria-label="Play BHASM flight video">
+        <span class="tri">&#9654;</span><span>Watch it fly</span>
+      </button>
+    </div>
   </div>
   <div class="wrap">
     <div class="cine-box">
@@ -979,6 +1010,12 @@
       cmd.classList.remove('done','engaging','held'); cmd.classList.add('armed');
       statusEl.textContent='Awaiting authorization'; };
     render(0);
+  })();
+
+  window.playBhasmVid=function(){var v=document.getElementById('bhasmVid');if(!v)return;v.setAttribute('controls','');v.play();var b=document.getElementById('bvidPlay');if(b)b.style.display='none';};
+
+  (function(){var v=document.getElementById('heroVid');if(!v)return;
+    if(!matchMedia('(prefers-reduced-motion:reduce)').matches){var p=v.play();if(p&&p.catch)p.catch(function(){});}
   })();
 </script>
 </body>
