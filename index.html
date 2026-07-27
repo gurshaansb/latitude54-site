@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Latitude 54 — Autonomous Engagement Intelligence</title>
-<meta name="description" content="AEOS is the decision-making layer inside autonomous defense platforms — turning a sensor track into a classification, an intent score, and an authorized engagement, in seconds." />
+<meta name="description" content="AEOS is the decision-making software layer inside autonomous defense platforms — turning a sensor track into a classification, an intent score, and an authorized engagement, in seconds." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -12,7 +12,9 @@
   :root{
     --bg:oklch(0.145 0.006 130);--bg-2:oklch(0.175 0.007 130);--surface:oklch(0.175 0.007 130);--surface-2:oklch(0.205 0.008 130);
     --line:oklch(0.28 0.01 130);--line-2:oklch(0.36 0.015 130);--text:oklch(0.93 0.006 120);--muted:oklch(0.68 0.012 120);--muted-2:oklch(0.50 0.014 120);
-    --amber:oklch(0.62 0.09 161);--amber-dim:oklch(0.46 0.07 161);--accent-strong:oklch(0.69 0.10 161);--accent-ink:oklch(0.16 0.02 161);--hostile:oklch(0.62 0.16 25);--ok:oklch(0.62 0.09 161);
+    --amber:oklch(0.34 0.06 152);--amber-dim:oklch(0.24 0.045 152);--accent-strong:oklch(0.46 0.07 152);--accent-ink:oklch(0.16 0.02 152);--hostile:oklch(0.62 0.16 25);--ok:oklch(0.34 0.06 152);
+    --camo:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2796%27%20height%3D%2764%27%3E%3Crect%20width%3D%2796%27%20height%3D%2764%27%20fill%3D%27%23152218%27%2F%3E%3Cpath%20d%3D%27M38.7%203.5%20L32.6%2012.6%20L28.8%2014.5%20L20.8%2010.8%20L19.4%203.2%20L29.0%20-4.7%20L33.7%200.0%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3Cpath%20d%3D%27M62.7%20-2.8%20L60.2%203.1%20L52.3%200.3%20L51.5%20-6.8%20L59.0%20-9.0%20Z%27%20fill%3D%27%2338553d%27%2F%3E%3Cpath%20d%3D%27M7.3%20-0.6%20L2.7%204.4%20L-1.4%203.6%20L-4.3%20-2.2%20L-3.1%20-6.9%20L3.6%20-7.3%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M68.2%20-1.9%20L66.2%206.4%20L54.3%206.7%20L52.2%20-1.9%20L56.0%20-8.7%20L64.3%20-7.6%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3Cpath%20d%3D%27M92.2%2066.7%20L87.2%2074.7%20L77.3%2071.5%20L79.5%2060.2%20L88.6%2059.2%20Z%27%20fill%3D%27%2338553d%27%2F%3E%3Cpath%20d%3D%27M66.3%2030.7%20L62.4%2036.1%20L58.6%2038.3%20L52.3%2033.5%20L55.2%2028.0%20L58.3%2025.5%20L66.4%2026.0%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3Cpath%20d%3D%27M15.9%208.3%20L13.6%2011.8%20L6.6%2013.6%20L4.9%207.9%20L7.4%20-0.7%20L14.7%201.0%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3Cpath%20d%3D%27M54.1%2059.6%20L52.7%2068.1%20L43.3%2068.9%20L35.6%2065.4%20L35.3%2057.1%20L39.1%2052.0%20L48.1%2050.8%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M6.3%2062.7%20L0.5%2066.7%20L-9.0%2070.6%20L-11.5%2060.5%20L-10.1%2052.4%20L2.3%2053.1%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3Cpath%20d%3D%27M75.5%2032.0%20L73.4%2038.2%20L63.2%2039.1%20L63.0%2032.7%20L65.7%2028.7%20L72.9%2027.9%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M86.1%2020.3%20L79.3%2024.7%20L73.0%2022.7%20L73.5%2017.1%20L79.3%2013.3%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M76.2%2068.4%20L73.1%2072.2%20L66.3%2073.1%20L58.8%2066.1%20L66.0%2059.1%20L74.2%2058.8%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M12.3%2044.1%20L4.9%2054.2%20L-9.3%2050.7%20L-5.7%2038.5%20L9.6%2033.4%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M19.7%202.3%20L15.3%209.9%20L11.4%2010.1%20L8.6%206.4%20L7.0%20-0.7%20L10.7%20-4.1%20L16.9%20-2.5%20Z%27%20fill%3D%27%230a120c%27%2F%3E%3Cpath%20d%3D%27M89.5%2010.9%20L85.6%2018.0%20L78.0%2016.0%20L78.1%204.4%20L86.4%203.8%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3Cpath%20d%3D%27M89.2%2059.3%20L86.7%2063.8%20L81.5%2065.5%20L77.1%2063.9%20L78.3%2058.2%20L82.0%2054.5%20L86.9%2057.4%20Z%27%20fill%3D%27%2328402c%27%2F%3E%3C%2Fsvg%3E");
+    --camo-text:oklch(0.96 0.01 90);--camo-bg:oklch(0.14 0.025 152);
     --maxw:1200px;--ease:cubic-bezier(0.2,0,0,1);
   }
   *{box-sizing:border-box}
@@ -23,7 +25,7 @@
   a{color:inherit;text-decoration:none}
   h1,h2,h3{font-family:"Archivo",sans-serif;font-weight:600;letter-spacing:-0.02em;line-height:1.03;margin:0}
   p{margin:0}
-  ::selection{background:oklch(0.62 0.09 161 / .24);color:var(--text)}
+  ::selection{background:oklch(0.56 0.08 152 / .24);color:var(--text)}
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
   .section{padding:clamp(6rem,13vh,10rem) 0;position:relative}
@@ -35,10 +37,12 @@
 
   .btn{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-family:"IBM Plex Mono",monospace;
     font-size:13px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:14px 22px;
-    border:1px solid var(--amber);color:oklch(0.16 0.02 161);background:var(--amber);border-radius:2px;transition:.25s var(--ease);}
-  .btn:hover{background:oklch(0.69 0.10 161);border-color:oklch(0.69 0.10 161)}
+    border:1px solid var(--amber-dim);color:var(--camo-text);text-shadow:0 1px 2px oklch(0 0 0 / .5);
+    background-color:var(--camo-bg);background-image:var(--camo);background-size:76px 51px;background-repeat:repeat;
+    border-radius:2px;transition:.25s var(--ease);}
+  .btn:hover{border-color:var(--amber);background-image:linear-gradient(oklch(1 0 0 / .1),oklch(1 0 0 / .1)),var(--camo)}
   .btn--ghost{background:transparent;color:var(--text);border-color:var(--line-2)}
-  .btn--ghost:hover{background:var(--accent-veil,oklch(0.62 0.09 161 / .14));border-color:var(--amber);color:var(--amber)}
+  .btn--ghost:hover{background:var(--accent-veil,oklch(0.56 0.08 152 / .14));border-color:var(--amber);color:var(--amber)}
   .btn .arw{transition:transform .25s var(--ease)}
   .btn:hover .arw{transform:translateX(3px)}
 
@@ -73,12 +77,12 @@
     mask-image:radial-gradient(120% 90% at 72% 42%,#000 12%,transparent 70%);
     -webkit-mask-image:radial-gradient(120% 90% at 72% 42%,#000 12%,transparent 70%);}
   .hero-glow{position:absolute;z-index:0;width:900px;height:900px;right:-160px;top:-120px;
-    background:radial-gradient(circle,oklch(0.62 0.09 161 / .11),transparent 62%);pointer-events:none}
+    background:radial-gradient(circle,oklch(0.56 0.08 152 / .11),transparent 62%);pointer-events:none}
   .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;
     background:radial-gradient(140% 120% at 50% 0%,transparent 40%,oklch(0.145 0.006 130 / .85) 100%),linear-gradient(180deg,transparent 55%,var(--bg) 98%)}
   .radar{position:absolute;z-index:1;right:-90px;top:50%;transform:translateY(-50%);width:min(620px,52vw);aspect-ratio:1;opacity:.9;pointer-events:none}
   .radar circle,.radar line{fill:none;stroke:var(--line-2);stroke-width:1}
-  .radar .rng{stroke:oklch(0.62 0.09 161 / .16)}
+  .radar .rng{stroke:oklch(0.56 0.08 152 / .16)}
   .sweep{transform-origin:50% 50%;animation:sweep 6s linear infinite}
   @keyframes sweep{to{transform:rotate(360deg)}}
   .blip{fill:var(--amber)}
@@ -147,7 +151,7 @@
   .step ul li::before{content:"";width:5px;height:5px;background:var(--amber-dim);flex:none}
 
   .panel{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:0;position:relative;overflow:hidden}
-  .panel::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 60% at 100% 0%,oklch(0.62 0.09 161 / .05),transparent 55%)}
+  .panel::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 60% at 100% 0%,oklch(0.56 0.08 152 / .05),transparent 55%)}
   .panel-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);
     font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   .live{display:inline-flex;align-items:center;gap:8px;color:var(--amber)}
@@ -163,7 +167,7 @@
   .fusion-arrow{text-align:center;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.2em;color:var(--muted-2);margin:20px 0 16px;text-transform:uppercase}
   .unified{border:1px solid var(--line-2);border-radius:2px;background:var(--bg);padding:18px;display:flex;align-items:center;justify-content:space-between}
   .unified .um{width:38px;height:38px;border-radius:50%;border:1px solid var(--amber);display:grid;place-items:center;color:var(--amber);position:relative}
-  .unified .um::after{content:"";position:absolute;inset:-6px;border:1px solid oklch(0.62 0.09 161 / .28);border-radius:50%;animation:ripple 2.4s ease-out infinite}
+  .unified .um::after{content:"";position:absolute;inset:-6px;border:1px solid oklch(0.56 0.08 152 / .28);border-radius:50%;animation:ripple 2.4s ease-out infinite}
   @keyframes ripple{0%{transform:scale(.8);opacity:.8}100%{transform:scale(1.5);opacity:0}}
   .unified .ut{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
 
@@ -199,9 +203,10 @@
   .authz .asg{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);margin:10px 0 14px}
   .authz .asg b{color:var(--text)}
   .auth-btns{display:flex;gap:10px}
-  .auth-btns button{flex:1;font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px;border-radius:2px;cursor:pointer;transition:.2s var(--ease)}
-  .b-auth{background:var(--amber);color:oklch(0.16 0.02 161);border:1px solid var(--amber)}
-  .b-auth:hover{background:oklch(0.69 0.10 161)}
+  .auth-btns button{flex:1;font-family:"IBM Plex Mono";font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;padding:16px 24px;border-radius:2px;cursor:pointer;transition:.2s var(--ease)}
+  .cine-cmd .cmd-btns button{font-family:"IBM Plex Mono";font-size:13.5px;letter-spacing:.1em;text-transform:uppercase;padding:16px 26px;border-radius:2px;cursor:pointer;transition:.2s var(--ease)}
+  .b-auth{background-color:var(--camo-bg);background-image:var(--camo);background-size:76px 51px;background-repeat:repeat;color:var(--camo-text);text-shadow:0 1px 3px oklch(0 0 0 / .6);border:1.5px solid var(--accent-strong);box-shadow:0 0 0 1px oklch(0 0 0 / .5),0 2px 16px oklch(0.56 0.08 152 / .4)}
+  .b-auth:hover{border-color:var(--accent-strong);background-image:linear-gradient(oklch(1 0 0 / .14),oklch(1 0 0 / .14)),var(--camo)}
   .b-hold{background:transparent;color:var(--muted);border:1px solid var(--line-2)}
   .b-hold:hover{border-color:var(--text);color:var(--text)}
   .auth-result{margin-top:14px;font-family:"IBM Plex Mono";font-size:12px;line-height:1.7;display:none}
@@ -214,7 +219,7 @@
   .mapwrap{padding:20px}
   .engmap{width:100%;height:auto;display:block}
   .engmap .grid-l{stroke:var(--line);stroke-width:1}
-  .engmap .peri{fill:none;stroke:oklch(0.62 0.09 161 / .35);stroke-width:1.2;stroke-dasharray:5 6}
+  .engmap .peri{fill:none;stroke:oklch(0.56 0.08 152 / .35);stroke-width:1.2;stroke-dasharray:5 6}
   .engmap .asset{fill:var(--amber)}
   .engmap .carrier{fill:none;stroke:var(--text);stroke-width:1.4}
   .engmap .path{fill:none;stroke:var(--amber);stroke-width:1.6;stroke-dasharray:520;stroke-dashoffset:520}
@@ -232,7 +237,7 @@
   .plog .pl .tag{color:var(--amber);flex:none}
   .plog .pl.clear .tag{color:var(--ok)}
   .engmap .eng-dot .eg{fill:var(--accent-strong)}
-  .engmap .eng-dot .eglow{fill:oklch(0.62 0.09 161 / .3)}
+  .engmap .eng-dot .eglow{fill:oklch(0.56 0.08 152 / .3)}
   .engmap .hit.flash{animation:hit .5s var(--ease) forwards}
   .engmap .held-label{fill:var(--warn);font-family:"IBM Plex Mono";font-size:9px;letter-spacing:.1em;text-transform:uppercase}
   .plog .pl.held .tag{color:var(--warn)}
@@ -281,7 +286,7 @@
   .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:2px;
     color:var(--text);font-family:"Archivo";font-size:14.5px;padding:12px 14px;transition:.2s;}
   .field textarea{resize:vertical;min-height:92px}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px oklch(0.62 0.09 161 / .12)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px oklch(0.56 0.08 152 / .12)}
   .field input::placeholder,.field textarea::placeholder{color:var(--muted-2)}
   .field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%238291A2' stroke-width='1.5' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 14px center}
   .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -380,7 +385,7 @@
   .reveal{opacity:0;transform:translateY(34px);transition:opacity .85s cubic-bezier(0.16,1,0.3,1),transform .85s cubic-bezier(0.16,1,0.3,1);will-change:opacity,transform}
   .reveal.in{opacity:1;transform:none}
   .scrollbar{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;pointer-events:none}
-  .scrollbar>i{display:block;height:100%;width:0;background:var(--amber);box-shadow:0 0 8px oklch(0.62 0.09 161 / .5);transition:width .1s linear}
+  .scrollbar>i{display:block;height:100%;width:0;background:var(--amber);box-shadow:0 0 8px oklch(0.56 0.08 152 / .5);transition:width .1s linear}
   /* Decision Cycle — degla scroll-through (pinned visual per step) */
   .cycle .cycle-intro{margin-bottom:clamp(1.5rem,5vh,4rem)}
   .csteps{display:flex;flex-direction:column}
@@ -432,7 +437,7 @@
   @keyframes cpulse{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.5;transform:scale(1.25)}}
   .scene .ic-path{fill:none;stroke:var(--amber);stroke-width:1.6;opacity:.9}
   .scene .ic-dot .icg{fill:var(--accent-strong)}
-  .scene .ic-dot .icglow{fill:oklch(0.62 0.09 161 / .3)}
+  .scene .ic-dot .icglow{fill:oklch(0.56 0.08 152 / .3)}
   .scene .apad{fill:none;stroke:var(--amber);opacity:.8}
   .scene .acore{fill:var(--amber);opacity:.9}
   .scene .tcore{fill:var(--hostile);transition:fill .3s}
@@ -468,7 +473,7 @@
   @media(prefers-reduced-motion:reduce){.cine-cmd.armed #bhauth,.scene .threat .tcore,.cine-cmd .cmd-dot{animation:none}}
 
   /* shiny attention buttons */
-  @keyframes shinyglow{0%,100%{box-shadow:0 0 0 0 oklch(0.62 0.09 161 / .55), 0 0 14px oklch(0.62 0.09 161 / .35)}50%{box-shadow:0 0 0 6px oklch(0.62 0.09 161 / 0), 0 0 24px oklch(0.62 0.09 161 / .6)}}
+  @keyframes shinyglow{0%,100%{box-shadow:0 0 0 0 oklch(0.56 0.08 152 / .55), 0 0 14px oklch(0.56 0.08 152 / .35)}50%{box-shadow:0 0 0 6px oklch(0.56 0.08 152 / 0), 0 0 24px oklch(0.56 0.08 152 / .6)}}
   @keyframes sheen{0%{transform:translateX(-170%) skewX(-18deg)}58%,100%{transform:translateX(340%) skewX(-18deg)}}
   .auth-btns .b-auth,.cine-cmd.armed #bhauth{position:relative;overflow:hidden;animation:shinyglow 2.1s ease-in-out infinite}
   .auth-btns .b-auth::after,.cine-cmd.armed #bhauth::after{content:"";position:absolute;top:0;left:0;width:45%;height:100%;background:linear-gradient(100deg,transparent,oklch(1 0 0 / .32),transparent);animation:sheen 2.9s ease-in-out infinite;pointer-events:none}
@@ -482,15 +487,15 @@
   /* BHASM flight video */
   .bhasm-video{position:relative;border:1px solid var(--line);background:var(--bg-2);aspect-ratio:16/9;overflow:hidden;margin:0 auto clamp(2rem,5vh,3.5rem);max-width:1120px}
   .bvid{display:block;width:100%;height:100%;object-fit:cover}
-  .bvid-play{position:absolute;inset:0;margin:auto;width:max-content;height:max-content;display:flex;align-items:center;gap:11px;padding:15px 26px;border:1px solid var(--amber);background:oklch(0.62 0.09 161 / .16);color:var(--amber);font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(3px);transition:background .15s var(--ease);animation:shinyglow 2.1s ease-in-out infinite}
-  .bvid-play:hover{background:oklch(0.62 0.09 161 / .26)}
+  .bvid-play{position:absolute;inset:0;margin:auto;width:max-content;height:max-content;display:flex;align-items:center;gap:11px;padding:15px 26px;border:1px solid var(--amber);background:oklch(0.56 0.08 152 / .16);color:var(--amber);font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(3px);transition:background .15s var(--ease);animation:shinyglow 2.1s ease-in-out infinite}
+  .bvid-play:hover{background:oklch(0.56 0.08 152 / .26)}
   .bvid-play .tri{font-size:10px}
 
   /* hero background video (live footage) */
   .hero.has-video .hero-grid,.hero.has-video .hero-glow{display:none}
   .hero.has-video .radar{opacity:.92;filter:drop-shadow(0 0 20px oklch(0.145 0.006 130 / .5))}
-  .hero.has-video .radar .rng{stroke:oklch(0.62 0.09 161 / .5)}
-  .hero.has-video .radar line{stroke:oklch(0.62 0.09 161 / .38)}
+  .hero.has-video .radar .rng{stroke:oklch(0.56 0.08 152 / .5)}
+  .hero.has-video .radar line{stroke:oklch(0.56 0.08 152 / .38)}
   .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
   .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:
     linear-gradient(180deg, oklch(0.145 0.006 130 / .5) 0%, oklch(0.145 0.006 130 / .42) 42%, oklch(0.145 0.006 130 / .97) 100%),
@@ -530,13 +535,14 @@
     <circle class="rng" cx="200" cy="200" r="60"/><circle class="rng" cx="200" cy="200" r="120"/><circle class="rng" cx="200" cy="200" r="180"/>
     <line x1="200" y1="20" x2="200" y2="380"/><line x1="20" y1="200" x2="380" y2="200"/>
     <g class="sweep"><path d="M200 200 L200 20 A180 180 0 0 1 340 108 Z" fill="url(#sg)"/></g>
-    <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="oklch(0.62 0.09 161 / .28)"/><stop offset="1" stop-color="oklch(0.62 0.09 161 / 0)"/></linearGradient></defs>
+    <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="oklch(0.56 0.08 152 / .28)"/><stop offset="1" stop-color="oklch(0.56 0.08 152 / 0)"/></linearGradient></defs>
     <circle class="blip" cx="262" cy="128" r="3"/><circle class="blip host" cx="140" cy="250" r="3.4"/><circle class="blip" cx="300" cy="230" r="2.5"/>
   </svg>
   <div class="hero-vignette"></div>
   <div class="wrap">
+    <span class="badge reveal"><span class="bd"></span>Software platform</span>
     <span class="eyebrow reveal">Autonomous Engagement Intelligence</span>
-    <h1 class="reveal">The brain inside <span class="em">autonomous defense.</span></h1>
+    <h1 class="reveal">The software brain inside <span class="em">autonomous defense.</span></h1>
     <p class="sub reveal">From a sensor track to an authorized engagement — in seconds.</p>
     <div class="hero-cta reveal">
       <a class="btn" href="#contact">Request a Briefing <span class="arw">→</span></a>
@@ -560,7 +566,7 @@
     <div class="shead">
       <span class="eyebrow reveal">Platform · AEOS</span>
       <h2 class="sec-h2 reveal">One brain. Three layers.</h2>
-      <p class="lede reveal">The sensors change by domain — air, sea, ground. The decision-making core doesn't.</p>
+      <p class="lede reveal">The sensors and hardware change by domain — air, sea, ground. The software core doesn't.</p>
     </div>
     <div class="trio">
       <div class="tcard reveal">
@@ -689,7 +695,7 @@
   <div class="wrap shead">
     <span class="eyebrow reveal">Systems · BHASM</span>
     <h2 class="sec-h2 reveal">BHASM — AEOS, in the air domain.</h2>
-    <p class="lede reveal">One carrier, five interceptors — each hunting a separate threat. <span class="em">Authorize the release to run it.</span></p>
+    <p class="lede reveal">One carrier, five interceptors — each hunting a separate threat. <span class="em">Authorize the release to run it.</span> The hardware exists to prove the software running it.</p>
   </div>
   <div class="wrap">
     <div class="bhasm-video reveal">
