@@ -47,11 +47,18 @@
     padding:18px 28px;transition:.4s var(--ease);border-bottom:1px solid transparent;}
   header.nav.scrolled{background:oklch(0.145 0.006 130 / .72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     border-bottom-color:var(--line);padding:14px 28px;}
-  .brand{font-family:"Michroma",sans-serif;font-weight:400;font-size:13px;letter-spacing:.2em;display:flex;align-items:center;gap:11px}
-  .brand .mark{height:24px;width:auto;display:block}
+  .brand{font-family:"Michroma",sans-serif;font-weight:400;font-size:13px;letter-spacing:.2em;display:flex;align-items:center;gap:11px;
+    transition:font-size .5s var(--ease),gap .5s var(--ease),left .5s var(--ease),transform .5s var(--ease)}
+  .brand .mark{height:24px;width:auto;display:block;transition:height .5s var(--ease)}
   .brand .dot{width:7px;height:7px;background:var(--amber);border-radius:50%;box-shadow:0 0 12px var(--amber);animation:pulse 2.6s var(--ease) infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .nav-links{display:flex;align-items:center;gap:34px}
+  @media(min-width:901px){
+    header.nav:not(.scrolled){justify-content:center}
+    header.nav:not(.scrolled) .brand{position:absolute;left:50%;transform:translateX(-50%);font-size:21px;gap:16px}
+    header.nav:not(.scrolled) .brand .mark{height:40px}
+    header.nav:not(.scrolled) .nav-links{opacity:0;pointer-events:none}
+  }
+  .nav-links{display:flex;align-items:center;gap:34px;transition:opacity .35s var(--ease)}
   .nav-links a.lk{font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .2s}
   .nav-links a.lk:hover{color:var(--text)}
   .nav-cta{padding:11px 18px;font-size:12px}
